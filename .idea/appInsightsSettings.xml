@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AppInsightsSettings">
+    <option name="selectedTabId" value="Firebase Crashlytics" />
+    <option name="tabSettings">
+      <map>
+        <entry key="Firebase Crashlytics">
+          <value>
+            <InsightsFilterSettings>
+              <option name="connection">
+                <ConnectionSetting>
+                  <option name="appId" value="com.carlosmgonzalez.kotflix" />
+                  <option name="mobileSdkAppId" value="1:799923262726:android:a73e3b76671f6a64173a87" />
+                  <option name="projectId" value="carlosmgonzalez-apps" />
+                  <option name="projectNumber" value="799923262726" />
+                </ConnectionSetting>
+              </option>
+              <option name="signal" value="SIGNAL_UNSPECIFIED" />
+              <option name="timeIntervalDays" value="THIRTY_DAYS" />
+              <option name="visibilityType" value="ALL" />
+            </InsightsFilterSettings>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
