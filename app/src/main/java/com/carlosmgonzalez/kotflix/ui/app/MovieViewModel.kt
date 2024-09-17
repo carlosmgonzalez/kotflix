@@ -15,6 +15,7 @@ import com.carlosmgonzalez.kotflix.data.MovieEntity
 import com.carlosmgonzalez.kotflix.data.MoviesRepository
 import com.carlosmgonzalez.kotflix.data.TvSeriesEntity
 import com.carlosmgonzalez.kotflix.model.Movie
+import com.carlosmgonzalez.kotflix.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-private const val apiKey = "81ca98"
+const val apiKey = BuildConfig.API_KEY
 
 data class UpcomingMoviesUiState(
     val movies: List<MovieEntity> = listOf()

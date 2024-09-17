@@ -33,6 +33,22 @@ class AuthViewModel : ViewModel() {
         }
     }
 
+    fun updateDisplayName(name: String?, nameUi: (name: String?) -> Unit) {
+        val profileUpdate = userProfileChangeRequest {
+            displayName = name
+        }
+
+        auth.currentUser!!.updateProfile(profileUpdate)
+            .addOnCompleteListener {task ->
+                if(task.isSuccessful) {
+                    Log.d("updateDisplayName", "Success update display name")
+                    nameUi(auth.currentUser?.displayName)
+                } else {
+                    Log.e("updateDisplayName", "Error update display name", task.exception)
+                }
+            }
+    }
+
     fun updateUserPhoto(uri: Uri, updateUi: (uri: Uri) -> Unit) {
         val storageRef = storage.reference
         val userUid = auth.currentUser!!.uid

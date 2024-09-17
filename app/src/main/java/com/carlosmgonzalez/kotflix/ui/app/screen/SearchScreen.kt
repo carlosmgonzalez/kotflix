@@ -123,7 +123,7 @@ fun SearchScreen(
                                     addMovieToFavorite = {
                                         moviesViewModel.addMovieToFavorites(movieEntity)
                                     },
-                                    size = true
+                                    size = Size.Medium
                                 )
                             }
                         }

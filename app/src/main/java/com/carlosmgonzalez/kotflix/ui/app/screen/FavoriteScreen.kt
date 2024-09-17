@@ -33,7 +33,7 @@ fun FavoriteScreen(
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = modifier.padding(bottom = 10.dp)
+            modifier = modifier.padding(bottom = 10.dp, end = 10.dp)
         ) {
             items(
                 items = favoritesMovies.movies,
@@ -45,7 +45,7 @@ fun FavoriteScreen(
                     addMovieToFavorite = {
                         moviesViewModel.addMovieToFavorites(movie)
                     },
-                    size = true
+                    size = Size.Medium
                 )
             }
         }

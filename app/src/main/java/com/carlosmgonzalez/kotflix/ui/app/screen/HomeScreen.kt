@@ -1,5 +1,6 @@
 package com.carlosmgonzalez.kotflix.ui.app.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,12 @@ import com.carlosmgonzalez.kotflix.ui.KotflixRoutes
 import com.carlosmgonzalez.kotflix.ui.app.MoviesViewModel
 import com.carlosmgonzalez.kotflix.ui.layout.LayoutNavbar
 
+enum class Size {
+    Small,
+    Medium,
+    Large
+}
+
 @Composable
 fun HomeScreen(
     currentScreen: KotflixRoutes,
@@ -66,7 +73,7 @@ fun HomeScreen(
             ListMovies(
                 movies = playingNowMovies.movies,
                 navigateToMovieDetail = navigateToMovieDetail,
-                size = true,
+                size = Size.Large,
                 addMovieToFavorite = { moviesViewModel.addMovieToFavorites(it) },
                 modifier = modifier
             )
@@ -74,7 +81,7 @@ fun HomeScreen(
             ListMovies(
                 movies = upcomingMovies.movies,
                 navigateToMovieDetail = navigateToMovieDetail,
-                size = false,
+                size = Size.Small,
                 title = "Upcoming movies",
                 addMovieToFavorite = { moviesViewModel.addMovieToFavorites(it) },
                 modifier = modifier
@@ -92,7 +99,7 @@ fun HomeScreen(
 fun ListMovies(
     movies: List<MovieEntity>,
     navigateToMovieDetail: (movieId: String) -> Unit,
-    size: Boolean,
+    size: Size,
     addMovieToFavorite: (movie: MovieEntity) -> Unit,
     modifier: Modifier = Modifier,
     title: String? = null
@@ -128,7 +135,7 @@ fun CardMovie(
     modifier: Modifier = Modifier,
     navigateToMovieDetail: (movieId: String) -> Unit,
     addMovieToFavorite: (movie: MovieEntity) -> Unit,
-    size: Boolean
+    size: Size
 ) {
     Card(
         modifier = modifier
@@ -136,23 +143,35 @@ fun CardMovie(
             .padding(start = 10.dp)
     ) {
         Box(
-            modifier = if (size) Modifier.size(width = 200.dp, height = 300.dp)
-            else Modifier.size(width = 100.dp, height = 150.dp)
+            modifier = when (size) {
+                Size.Large -> Modifier.size(width = 200.dp, height = 300.dp)
+                Size.Medium -> Modifier.fillMaxSize()
+                Size.Small -> Modifier.size(width = 100.dp, height = 150.dp)
+            }
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data("https://image.tmdb.org/t/p/w500/${movie.posterPath}")
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.fillMaxSize(),
-                placeholder = painterResource(R.drawable.placeholder_image)
-            )
+            if(movie.posterPath != null) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data("https://image.tmdb.org/t/p/w500/${movie.posterPath}")
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                    placeholder = painterResource(R.drawable.placeholder_image)
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.placeholder_image),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
             IconButton(
                 onClick = {
                     addMovieToFavorite(movie)
                 },
-                modifier = if (size) {
+                modifier = if (size == Size.Large) {
                     Modifier.align(Alignment.BottomEnd)
                 } else {
                     Modifier
@@ -175,6 +194,7 @@ fun CardMovie(
                     )
                 }
             }
+
         }
     }
 

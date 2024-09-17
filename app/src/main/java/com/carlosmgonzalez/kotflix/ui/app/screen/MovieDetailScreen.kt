@@ -1,5 +1,6 @@
 package com.carlosmgonzalez.kotflix.ui.app.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -128,6 +129,13 @@ fun MovieDetail(
                             contentScale = ContentScale.FillWidth,
                             placeholder = painterResource(R.drawable.placeholder_image_large)
                         )
+                    } else {
+                        Image(
+                            painter = painterResource(R.drawable.placeholder_image_large),
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth(),
+                            contentScale = ContentScale.FillWidth,
+                        )
                     }
                 }
                 Column(
@@ -235,20 +243,24 @@ fun CastCard(
         Card(
             modifier.size(width = 180.dp, height = 270.dp)
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(
-                        if (cast.profilePath == null)
-                            "https://res.cloudinary.com/difikt7so/image/upload/v1725832986/android-apps/pe0iael3vcfashyx50qr.jpg"
-                        else
-                            "https://image.tmdb.org/t/p/w500/${cast.profilePath}"
-                    )
-                    .build(),
-                contentDescription = "character",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.fillMaxSize(),
-                placeholder = painterResource(R.drawable.placeholder_image)
-            )
+            if (cast.profilePath != null ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data("https://image.tmdb.org/t/p/w500/${cast.profilePath}")
+                        .build(),
+                    contentDescription = "character",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier.fillMaxSize(),
+                    placeholder = painterResource(R.drawable.no_photo_cast)
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.no_photo_cast),
+                    contentDescription = "character",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
         }
         Text(text = cast.name.truncate(), modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
     }
